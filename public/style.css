@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #000;
+    background-color: #222;
 }
 .background {
     width: 430px;
@@ -31,6 +31,7 @@ form {
 }
 form * {
     font-family: 'Poppins', sans-serif;
+    font-style: italic;
     color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
