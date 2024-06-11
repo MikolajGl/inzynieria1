@@ -7,40 +7,29 @@ const server = http.createServer(app);
 const formatMessage = require('C:\\Users\\Umbra\\Desktop\\main\\server.js');
 const io = socketIo(server);
 
-app.use(express.json()); 
-app.use(express.static(path.join(__dirname, 'public')));
 
-let users = [];
-let messages = [];
 
 const PORT = process.env.PORT || 3000;
 
-app.post('/login', (req, res) => {
-    const { username } = req.body;
-    if (users.includes(username)) {
-        res.json({ success: true });
-    } else {
-        users.push(username);
-        res.json({ success: true });
-    }
-});
+app.use(express.json()); 
+app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    console.log('new user')
+    socket.emit('message', 'Hello from client!');
+    socket.broadcast.emit('message','a user has join a chat');
 
-    // Wyślij historię wiadomości po połączeniu
-    socket.emit('history', messages);
-
-    // Obsługa nowej wiadomości
-    socket.on('message', (data) => {
-        messages.push(data);
-        io.emit('message', data);
+    socket.on('disconnect',() => {
+        io.emit('message','A user has left a chat');
+    })
+    socket.on('chat-message', message => {
+        io.emit('message', message);
     });
 
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
+
+
 });
+
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
