@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Room</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="chat.js"></script>
 </head>
 <body>
-    <h1>Chat Room</h1>
-    <div id="messages"></div>
-    <input id="messageInput" type="text" placeholder="Type a message">
-    <button id="sendButton">Send</button>
+    <div class="background"></div>
+    <div class="chat-container">
+        <h3>Chat Room</h3>
+        <div id="messages" class="messages"></div>
+        <input id="messageInput" type="text" placeholder="Type a message">
+        <button id="sendButton">Send</button>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>

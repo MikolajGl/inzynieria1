@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="style.css">
+    <script defer src="index.js"></script>
 </head>
 <body>
     <div class="background"></div>
-    <form>
+    <form id="loginForm">
         <h3>ChatRoom</h3>
-
         <label for="username">Username</label>
-        <input type="text" placeholder="Type your name here!!" id="username">
-
-        <button>Let me in</button>
+        <input type="text" placeholder="Type your name here!!" id="username" required>
+        <button type="submit">Let me in</button>
     </form>
 </body>
 </html>
