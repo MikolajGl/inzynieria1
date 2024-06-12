@@ -14,12 +14,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 function formatTimestamp() {
     const now = new Date();
-    return `${now.getDay()}:${now.getMonth()}:${now.getFullYear()}:${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const formattedTimestamp = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    return formattedTimestamp;
 }
 
 io.on('connection', async (socket) => {
     let username;
-
     // Send all previous messages to the newly connected user
     try {
         const messages = await Message.find();
@@ -29,7 +35,6 @@ io.on('connection', async (socket) => {
     } catch (err) {
         console.error('Error retrieving messages:', err);
     }
-
     // Handle user joining with a nickname
     socket.on('user', (data) => {
         username = data.username;
