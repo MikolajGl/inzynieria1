@@ -8,6 +8,7 @@
 body {
     background-color: #222;
 }
+
 .background {
     width: 430px;
     height: 520px;
@@ -16,6 +17,17 @@ body {
     left: 50%;
     top: 50%;
 }
+
+.chat-container {
+    width: 500px; 
+    margin: 20px auto;
+    border: 1px solid #0f3a15;
+    padding: 10px;
+    background-color: #0f3a15;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 form {
     height: 520px;
     width: 400px;
@@ -37,6 +49,8 @@ form * {
     outline: none;
     border: none;
 }
+
+
 form h3 {
     font-size: 32px;
     font-weight: 500;
@@ -63,6 +77,7 @@ input {
 ::placeholder {
     color: #6666664b;
 }
+
 button {
     margin-top: 50px;
     width: 100%;

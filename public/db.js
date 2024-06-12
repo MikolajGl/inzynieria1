@@ -18,6 +18,11 @@ const messageSchema = new mongoose.Schema({
     timestamp: String
 });
 
+/*const user = new mongoose.Schema({
+    username: String
+});*/
+
 const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;
+//module.exports = user;
