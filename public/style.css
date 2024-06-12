@@ -21,10 +21,12 @@ body {
 .chat-container {
     border: 2px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(192, 190, 190, 0.13);
+    border-radius:10px;
     width: 430px;
     height: 520px;
     position: absolute;
     transform: translate(-50%, -50%);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
     left: 50%;
     top: 50%;
 }
