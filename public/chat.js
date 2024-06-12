@@ -1,36 +1,46 @@
 const socket = io();
 const messageContainer = document.getElementById('messages');
-const messageInput = document.getElementById("messageInput");
-const sendButton = document.getElementById("sendButton");
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
+const username = new URLSearchParams(window.location.search).get('username');
 
-socket.on('message', message => {
+// Listen for incoming messages
+socket.on('message', (message) => {
     console.log(message);
     outputMessage(message);
 });
+
+// Emit the username to the server when a user connects
+socket.emit('user', { username });
 
 // Function to send a message
 function sendMessage() {
     const message = messageInput.value.trim(); // Trim removes leading and trailing whitespace
     if (message !== "") {
-        // Logic to send the message
-        socket.emit("chatMessage", message); // Emitting "chatMessage" event
-        messageInput.value = ""; // Clear input after sending
+        // Send the message to the server
+        socket.emit('chatMessage', message);
+        messageInput.value = ''; // Clear input after sending
     }
 }
 
 // Event listener for button click
-sendButton.addEventListener("click", sendMessage);
+sendButton.addEventListener('click', sendMessage);
 
 // Allow pressing Enter key to send message
-messageInput.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
+messageInput.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default behavior (if any)
         sendMessage();
     }
 });
 
-function outputMessage(message) {
+// Function to display a message in the chat
+function outputMessage({ username, message, timestamp }) {
     const div = document.createElement('div');
     div.classList.add('message');
-    div.innerHTML = `<p>${message}</p>`;
+
+    div.innerHTML = `<p><strong>${username}</strong> <span>${timestamp}</span>: ${message}</p>`;
+
     messageContainer.appendChild(div);
+    messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to the latest message
 }
