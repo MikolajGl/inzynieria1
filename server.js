@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 function formatTimestamp() {
     const now = new Date();
-    return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    return `${now.getDay()}:${now.getMonth()}:${now.getFullYear()}:${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 }
 
 io.on('connection', async (socket) => {
