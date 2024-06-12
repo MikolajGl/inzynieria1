@@ -15,19 +15,15 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
-    console.log('new user')
-    socket.emit('message', 'Hello from client!');
+    socket.emit('message','Hello from client!');
     socket.broadcast.emit('message','a user has join a chat');
 
     socket.on('disconnect',() => {
         io.emit('message','A user has left a chat');
     })
-    socket.on('chat-message', message => {
+    socket.on('chatMessage', message => {
         io.emit('message', message);
     });
-
-
-
 });
 
 
