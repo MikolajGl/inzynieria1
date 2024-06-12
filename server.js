@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-
+const Message = require('C:\\Users\\Umbra\\Desktop\\main\\public\\db.js');
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,25 +17,44 @@ function formatTimestamp() {
     return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 }
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     let username;
+
+    // Send all previous messages to the newly connected user
+    try {
+        const messages = await Message.find();
+        messages.forEach((message) => {
+            socket.emit('message', message);
+        });
+    } catch (err) {
+        console.error('Error retrieving messages:', err);
+    }
 
     // Handle user joining with a nickname
     socket.on('user', (data) => {
         username = data.username;
-        socket.emit('message', { username: 'System', message: `Welcome to the chat, ${username}!`, timestamp: formatTimestamp() });
-        socket.broadcast.emit('message', { username: 'System', message: `${username} has joined the chat`, timestamp: formatTimestamp() });
+        const welcomeMessage = { username: 'System', message: `Welcome to the chat, ${username}!`, timestamp: formatTimestamp() };
+        socket.emit('message', welcomeMessage);
+
+        const joinMessage = { username: 'System', message: `${username} has joined the chat`, timestamp: formatTimestamp() };
+        socket.broadcast.emit('message', joinMessage);
     });
 
     // Handle chat messages
     socket.on('chatMessage', (message) => {
-        io.emit('message', { username, message, timestamp: formatTimestamp() });
+        const chatMessage = { username, message, timestamp: formatTimestamp() };
+        io.emit('message', chatMessage);
+
+        // Save the chat message to the database
+        const msg = new Message(chatMessage);
+        msg.save().catch((err) => console.error('Error saving message:', err));
     });
 
     // Handle user disconnecting
     socket.on('disconnect', () => {
         if (username) {
-            io.emit('message', { username: 'System', message: `${username} has left the chat`, timestamp: formatTimestamp() });
+            const leaveMessage = { username: 'System', message: `${username} has left the chat`, timestamp: formatTimestamp() };
+            io.emit('message', leaveMessage);
         }
     });
 });
