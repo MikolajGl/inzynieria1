@@ -18,18 +18,6 @@ body {
     top: 50%;
 }
 
-.chat-container {
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(192, 190, 190, 0.13);
-    border-radius:10px;
-    width: 430px;
-    height: 520px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-    left: 50%;
-    top: 50%;
-}
 
 form {
     height: 520px;
@@ -91,4 +79,49 @@ button {
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-bottom: 1px solid #999a9b;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #777;
+}
+
+.message strong {
+    color: #333;
+}
+
+#sendButton {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#sendButton:hover {
+    background-color: #183a1a;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    background-color: #888;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    height: 70vh; 
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
 }
