@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+let users = [];
+
 function formatTimestamp() {
     const now = new Date();
     const day = now.getDate();
@@ -43,7 +45,11 @@ io.on('connection', async (socket) => {
 
         const joinMessage = { username: 'System', message: `${username} has joined the chat`, timestamp: formatTimestamp() };
         socket.broadcast.emit('message', joinMessage);
+
+        users.push({ id: socket.id, username });
+        io.emit('userList', { users });
     });
+
 
     // Handle chat messages
     socket.on('chatMessage', (message) => {

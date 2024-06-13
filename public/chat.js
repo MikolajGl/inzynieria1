@@ -2,6 +2,7 @@ const socket = io();
 const messageContainer = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
+const userList = document.getElementById('userlist');
 const username = new URLSearchParams(window.location.search).get('username');
 
 // Listen for incoming messages
@@ -13,6 +14,9 @@ socket.on('message', (message) => {
 // Emit the username to the server when a user connects
 socket.emit('user', { username });
 
+socket.on('userList', ({ users }) => {
+    showUsers(users);
+});
 // Function to send a message
 function sendMessage() {
     const message = messageInput.value.trim(); // Trim removes leading and trailing whitespace
@@ -43,4 +47,15 @@ function outputMessage({ username, message, timestamp }) {
 
     messageContainer.appendChild(div);
     messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to the latest message
+}
+
+
+function showUsers(users) {
+    userList.textContent = ''; 
+    if (users && users.length > 0) {
+        const userListHTML = users.map(user => `<li>${user.name}</li>`).join('');
+        usersList.innerHTML = `<em>Users:</em><ul>${userListHTML}</ul>`;
+    } else {
+        usersList.innerHTML = '<em>No users currently.</em>';
+    }
 }
